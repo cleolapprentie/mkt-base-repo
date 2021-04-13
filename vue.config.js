@@ -7,10 +7,17 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 const resolve = (dir) => path.join(__dirname, '.', dir)
 const fullPath = `${process.env.PROJECT}${process.env.BASE_URL}`
+const buildPath = `dist/${getBranchName()}_${fullPath}`
+
+function getBranchName () {
+  return require('child_process')
+    .execSync('git symbolic-ref --short HEAD')
+    .toString().trim()
+}
 
 module.exports = {
   publicPath: `./${process.env.BASE_URL}`,
-  outputDir: resolve(`dist/${fullPath}`),
+  outputDir: resolve(buildPath),
   productionSourceMap: false,
   devServer: {
     disableHostCheck: true,
@@ -49,15 +56,15 @@ module.exports = {
 
     if (process.env.BUILD === 'true') {
       const renderRoutes = [
-        '/index.html'
+        '/'
       ]
 
       // eslint-disable-next-line no-unused-vars
       const prerender = new PrerenderSPAPlugin({
         // Required - The path to the webpack-outputted app to prerender.
-        staticDir: resolve(`dist/${fullPath}`),
-        outputDir: resolve(`dist/${fullPath}`),
-        indexPath: resolve(`dist/${fullPath}/index.html`),
+        staticDir: resolve(buildPath),
+        outputDir: resolve(buildPath),
+        indexPath: resolve(`${buildPath}`),
         // Required - Routes to render.
         routes: renderRoutes,
         renderer: new Renderer({
@@ -67,16 +74,16 @@ module.exports = {
           injectProperty: '__PRERENDER_PROCESSING',
           inject: true,
           headless: true
-        }),
-        postProcess (context) {
-          if (context.route.endsWith('.html')) {
-            context.outputPath = resolve(
-              `dist/${process.env.PROJECT}${process.env.BASE_URL}/${context.route}`
-            )
-          }
+        })
+        // postProcess (context) {
+        //   if (context.route.endsWith('.html')) {
+        //     context.outputPath = resolve(
+        //       `${buildPath}/${context.route}`
+        //     )
+        //   }
 
-          return context
-        }
+        //   return context
+        // }
       })
 
       customConfig.plugins.push(prerender)
