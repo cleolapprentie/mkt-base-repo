@@ -1,0 +1,25 @@
+@forward './base/reset';
+@forward './animation/v-transition';
+@forward './utilities';
+@use './base/font-face';
+
+html {
+  font-size: 10px;
+}
+
+body {
+  min-width: 320px;
+  font-family: Roboto, Arial, 'Microsoft JhengHei Modify', 'Microsoft JhengHei', PingFangTC, sans-serif;
+  font-size: 1.6rem;
+  line-height: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+label,
+select,
+button {
+  cursor: pointer;
+}

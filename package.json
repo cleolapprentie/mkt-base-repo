@@ -1,0 +1,67 @@
+{
+  "name": "my-project3",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve --port 3000",
+    "build": "env BUILD=true vue-cli-service build",
+    "lint": "vue-cli-service lint */src/**/*.{js,vue} --fix && stylelint --cache */src/**/*.{vue,scss} --fix"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "core-js": "^3.6.5",
+    "detect-browser": "^5.2.0",
+    "vue": "^2.6.11",
+    "vue-meta": "^2.4.0",
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "3.0.0",
+    "@fullhuman/vue-cli-plugin-purgecss": "~4.0.3",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/composition-api": "^1.0.0-rc.6",
+    "@vue/eslint-config-standard": "^5.1.2",
+    "babel-eslint": "^10.1.0",
+    "compression-webpack-plugin": "^5.0.1",
+    "css-minimizer-webpack-plugin": "^1.1.5",
+    "eslint": "^6.7.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "lint-staged": "^9.5.0",
+    "prerender-spa-plugin": "^3.4.0",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
+    "stylelint": "^13.12.0",
+    "stylelint-config-recommended-scss": "^4.2.0",
+    "stylelint-order": "^4.1.0",
+    "stylelint-scss": "^3.19.0",
+    "stylelint-webpack-plugin": "^2.1.1",
+    "vue-template-compiler": "^2.6.11",
+    "vuex-composition-helpers": "^1.0.23"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.vue": [
+      "npm run lint",
+      "git add"
+    ],
+    "*.scss": [
+      "npm run lint",
+      "git add"
+    ],
+    "*.{js,ts}": [
+      "npm run lint",
+      "git add"
+    ]
+  }
+}
