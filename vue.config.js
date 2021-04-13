@@ -6,10 +6,11 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
 const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 const resolve = (dir) => path.join(__dirname, '.', dir)
+const fullPath = `${process.env.PROJECT}${process.env.BASE_URL}`
 
 module.exports = {
-  publicPath: process.env.BASE_URL,
-  outputDir: resolve(`dist${process.env.BASE_URL}`),
+  publicPath: `./${process.env.BASE_URL}`,
+  outputDir: resolve(`dist/${fullPath}`),
   productionSourceMap: false,
   devServer: {
     disableHostCheck: true,
@@ -32,9 +33,15 @@ module.exports = {
   configureWebpack: (config) => {
     const customConfig = {
       mode: process.env.BUILD ? 'production' : 'development',
+      resolve: {
+        alias: {
+          '~': resolve(`./${fullPath}/src`),
+          '@': resolve(`./${fullPath}/src`)
+        }
+      },
       plugins: [
         new StyleLintPlugin({
-          files: ['src/**/*.{vue,scss}']
+          files: ['*/src/**/*.{vue,scss}']
         })
       ],
       optimization: {}
@@ -45,11 +52,12 @@ module.exports = {
         '/index.html'
       ]
 
+      // eslint-disable-next-line no-unused-vars
       const prerender = new PrerenderSPAPlugin({
         // Required - The path to the webpack-outputted app to prerender.
-        staticDir: resolve('dist'),
-        outputDir: resolve(`dist${process.env.BASE_URL}`),
-        indexPath: resolve(`dist${process.env.BASE_URL}/index.html`),
+        staticDir: resolve(`dist/${fullPath}`),
+        outputDir: resolve(`dist/${fullPath}`),
+        indexPath: resolve(`dist/${fullPath}/index.html`),
         // Required - Routes to render.
         routes: renderRoutes,
         renderer: new Renderer({
@@ -63,7 +71,7 @@ module.exports = {
         postProcess (context) {
           if (context.route.endsWith('.html')) {
             context.outputPath = resolve(
-              `dist${process.env.BASE_URL}/${context.route}`
+              `dist/${process.env.PROJECT}${process.env.BASE_URL}/${context.route}`
             )
           }
 
