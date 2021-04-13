@@ -6,8 +6,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
 const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 const resolve = (dir) => path.join(__dirname, '.', dir)
-const fullPath = `${process.env.PROJECT}${process.env.BASE_URL}`
-const buildPath = `dist/${getBranchName()}_${fullPath}`
+const projectPath = `./${process.env.PROJECT}${process.env.BASE_URL}`
+const buildPath = `dist/${getBranchName()}_${projectPath}`
 
 function getBranchName () {
   return require('child_process')
@@ -42,8 +42,8 @@ module.exports = {
       mode: process.env.BUILD ? 'production' : 'development',
       resolve: {
         alias: {
-          '~': resolve(`./${fullPath}/src`),
-          '@': resolve(`./${fullPath}/src`)
+          '~': resolve(`${projectPath}/src`),
+          '@': resolve(`${projectPath}/src`)
         }
       },
       plugins: [
@@ -59,7 +59,6 @@ module.exports = {
         '/'
       ]
 
-      // eslint-disable-next-line no-unused-vars
       const prerender = new PrerenderSPAPlugin({
         // Required - The path to the webpack-outputted app to prerender.
         staticDir: resolve(buildPath),
