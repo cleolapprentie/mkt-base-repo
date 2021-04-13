@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "PROJECT=$npm_config_project vue-cli-service serve --port 3000 ./$npm_config_project/src/main.js",
+    "serve": "PROJECT=$npm_config_project npm run set-alias && PROJECT=$npm_config_project vue-cli-service serve --port 3000 ./$npm_config_project/src/main.js",
     "build": "env PROJECT=$npm_config_project BUILD=true vue-cli-service build ./$npm_config_project/src/main.js",
-    "lint": "vue-cli-service lint */src/**/*.{js,vue} --fix && stylelint --cache */src/**/*.{vue,scss} --fix"
+    "lint": "vue-cli-service lint */src/**/*.{js,vue} --fix && stylelint --cache */src/**/*.{vue,scss} --fix",
+    "set-alias": "PROJECT=$npm_config_project node addIntellisence.js"
   },
   "dependencies": {
     "axios": "^0.21.1",

@@ -16,9 +16,17 @@
   "stylelint.autoFixOnSave": true,
   "eslint.alwaysShowStatus": true,
   "eslint.options": {
-    "extensions": [".html", ".js", ".vue"]
+    "extensions": [
+      ".html",
+      ".js",
+      ".vue"
+    ]
   },
-  "eslint.validate": ["html", "vue", "javascript"],
+  "eslint.validate": [
+    "html",
+    "vue",
+    "javascript"
+  ],
   "cSpell.words": [
     "Nuxt",
     "Vuex",
@@ -36,7 +44,10 @@
     ".vscode"
   ],
   "[html]": {
-    "editor.rulers": [100, 120],
+    "editor.rulers": [
+      100,
+      120
+    ],
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -52,14 +63,13 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "blueprint.templatesPath": [".vscode/blueprint-templates"],
-  "path-intellisense.mappings": {
-    "@": "${workspaceRoot}/src"
-  },
+  "blueprint.templatesPath": [
+    ".vscode/blueprint-templates"
+  ],
   "codemetrics.basics.ComplexityLevelNormal": 10,
   "codemetrics.basics.ComplexityLevelHigh": 20,
   "codemetrics.basics.ComplexityLevelExtreme": 30,
   "scss.validate": false,
   "html.format.endWithNewline": true,
-  "tailwindCSS.emmetCompletions": true
+  "tailwindCSS.emmetCompletions": true,
 }
