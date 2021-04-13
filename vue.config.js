@@ -9,12 +9,6 @@ const resolve = (dir) => path.join(__dirname, '.', dir)
 const projectPath = `./${process.env.PROJECT}${process.env.BASE_URL}`
 const buildPath = `dist/${getBranchName()}_${process.env.PROJECT}`
 
-function getBranchName () {
-  return require('child_process')
-    .execSync('git symbolic-ref --short HEAD')
-    .toString().trim()
-}
-
 module.exports = {
   publicPath: `./${process.env.BASE_URL}`,
   outputDir: resolve(buildPath),
@@ -55,9 +49,7 @@ module.exports = {
     }
 
     if (process.env.BUILD === 'true') {
-      const renderRoutes = [
-        '/'
-      ]
+      const renderRoutes = getRouterRoutes()
 
       const prerender = new PrerenderSPAPlugin({
         // Required - The path to the webpack-outputted app to prerender.
@@ -68,7 +60,9 @@ module.exports = {
         routes: renderRoutes,
         renderer: new Renderer({
           // -> 打事件決定渲染時機
+          // -> eg. `document.dispatchEvent(new Event('render-event'))`
           // renderAfterDocumentEvent: 'render-event',
+
           // -> Prerender時window.__PRERENDER_PROCESSING === true
           injectProperty: '__PRERENDER_PROCESSING',
           inject: true,
@@ -103,4 +97,23 @@ module.exports = {
 
     return customConfig
   }
+}
+
+function getBranchName () {
+  return require('child_process')
+    .execSync('git symbolic-ref --short HEAD')
+    .toString().trim()
+}
+
+function getRouterRoutes () {
+  const reg = /(?<=path: ')(\/.*)(?=')/
+  const routesConfig = require('fs')
+    .readFileSync(resolve(`${projectPath}/src/router/index.js`), 'utf8')
+    .toString().split('\n')
+
+  return routesConfig.reduce((acc, line) => {
+    const result = line.match(reg)
+    result && acc.push(result[0])
+    return acc
+  }, [])
 }
