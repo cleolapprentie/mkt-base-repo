@@ -49,7 +49,11 @@ module.exports = {
     }
 
     if (process.env.BUILD === 'true') {
-      const renderRoutes = getRouterRoutes()
+      const renderRoutes = [
+        ...getRouterRoutes()
+        // 如有動態param請完整定義在這裡
+        // eg. `/user/:id` -> `/user/alex`
+      ]
 
       const prerender = new PrerenderSPAPlugin({
         // Required - The path to the webpack-outputted app to prerender.
@@ -61,12 +65,12 @@ module.exports = {
         renderer: new Renderer({
           // -> 打事件決定渲染時機
           // -> eg. `document.dispatchEvent(new Event('render-event'))`
-          // renderAfterDocumentEvent: 'render-event',
+          renderAfterDocumentEvent: 'render-event',
 
           // -> Prerender時window.__PRERENDER_PROCESSING === true
           injectProperty: '__PRERENDER_PROCESSING',
           inject: true,
-          headless: true
+          headless: false
         })
         // postProcess (context) {
         //   if (context.route.endsWith('.html')) {
@@ -111,9 +115,18 @@ function getRouterRoutes () {
     .readFileSync(resolve(`${projectPath}/src/router/index.js`), 'utf8')
     .toString().split('\n')
 
+  function validateRoute (path) {
+    if (!path.includes('/:')) return path
+    else return null
+  }
+
   return routesConfig.reduce((acc, line) => {
-    const result = line.match(reg)
-    result && acc.push(result[0])
+    const path = line.match(reg)
+    if (path) {
+      const result = validateRoute(path[0])
+      result && acc.push(result)
+    }
+
     return acc
   }, [])
 }
