@@ -7,6 +7,7 @@ const jsconfig = {
       '@/*': ['./src/*']
     }
   },
+  include: ['./src/**/*'],
   exclude: ['node_modules', 'dist', '.vscode']
 }
 
