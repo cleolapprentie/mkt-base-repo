@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "npm run set-alias && npm run serve",
-    "serve": "PROJECT=$npm_config_project vue-cli-service serve --port 3000 ./$npm_config_project/src/main.js",
-    "build": "env PROJECT=$npm_config_project BUILD=true vue-cli-service build ./$npm_config_project/src/main.js",
+    "serve": "PROJECT=$npm_config_project vue-cli-service serve --port 3000",
+    "build": "env PROJECT=$npm_config_project BUILD=true vue-cli-service build",
     "lint": "npm run lint:script && npm run lint:style",
     "lint:script": "vue-cli-service lint */src/**/*.{js,vue} --fix",
     "lint:style": "stylelint --cache */src/**/*.{vue,scss} --fix",
@@ -32,6 +32,7 @@
     "@vue/eslint-config-standard": "^5.1.2",
     "babel-eslint": "^10.1.0",
     "compression-webpack-plugin": "^5.0.1",
+    "copy-webpack-plugin": "^5.1.2",
     "css-minimizer-webpack-plugin": "^1.1.5",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",

@@ -11,7 +11,7 @@ export const example = () => {
       method: 'get'
     },
     success: (res) => {
-      const example = res.data.example || {}
+      const example = res.data || {}
       return { data: example, error: null }
     },
     error: (err) => {

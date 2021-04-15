@@ -3,6 +3,7 @@ const StyleLintPlugin = require('stylelint-webpack-plugin')
 const PrerenderSPAPlugin = require('prerender-spa-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 const resolve = (dir) => path.join(__dirname, '.', dir)
@@ -10,7 +11,7 @@ const projectPath = `./${process.env.PROJECT}${process.env.BASE_URL}`
 const buildPath = `dist/${getBranchName()}_${process.env.PROJECT}`
 
 module.exports = {
-  publicPath: `./${process.env.BASE_URL}`,
+  publicPath: `.${process.env.BASE_URL}`,
   outputDir: resolve(buildPath),
   productionSourceMap: false,
   devServer: {
@@ -31,6 +32,22 @@ module.exports = {
       }
     }
   },
+  pages: {
+    index: {
+      // page 的入口
+      entry: `${process.env.PROJECT}/src/main.js`,
+      // 模板来源
+      template: `${process.env.PROJECT}/public/index.html`,
+      // 在 dist/index.html 的输出
+      filename: 'index.html',
+      // 当使用 title 选项时，
+      // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
+      title: 'Index Page',
+      // 在这个页面中包含的块，默认情况下会包含
+      // 提取出来的通用 chunk 和 vendor chunk。
+      chunks: ['chunk-vendors', 'chunk-common', 'index']
+    }
+  },
   configureWebpack: (config) => {
     const customConfig = {
       mode: process.env.BUILD ? 'production' : 'development',
@@ -40,8 +57,12 @@ module.exports = {
         }
       },
       plugins: [
+        new CopyWebpackPlugin([{
+          from: resolve(`${process.env.PROJECT}/public/`),
+          to: resolve(buildPath)
+        }]),
         new StyleLintPlugin({
-          files: ['*/src/**/*.{vue,scss}']
+          files: ['**/src/**/*.{vue,scss}']
         })
       ],
       optimization: {}
@@ -58,7 +79,7 @@ module.exports = {
         // Required - The path to the webpack-outputted app to prerender.
         staticDir: resolve(buildPath),
         outputDir: resolve(buildPath),
-        indexPath: resolve(`${buildPath}`),
+        indexPath: resolve(`${buildPath}/`),
         // Required - Routes to render.
         routes: renderRoutes,
         renderer: new Renderer({

@@ -8,8 +8,11 @@ export default {
       title: 'title'
     }
   },
-  mounted () {
+  async mounted () {
     this.$prerenderStartPoint() // 通知prerender開始渲染
+
+    const { data } = await this.$store.dispatch('GET_DATA')
+    console.log(data.name)
   }
 }
 </script>
