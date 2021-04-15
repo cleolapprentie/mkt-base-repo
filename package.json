@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run set-alias && npm run serve",
-    "serve": "PROJECT=$npm_config_project vue-cli-service serve --port 3000",
+    "dev": "PROJECT=$npm_config_project vue-cli-service serve --port 3000",
     "build": "env PROJECT=$npm_config_project BUILD=true vue-cli-service build",
     "lint": "npm run lint:script && npm run lint:style",
     "lint:script": "vue-cli-service lint */src/**/*.{js,vue} --fix",

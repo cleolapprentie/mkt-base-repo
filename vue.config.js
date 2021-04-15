@@ -7,11 +7,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 const resolve = (dir) => path.join(__dirname, '.', dir)
-const projectPath = `./${process.env.PROJECT}${process.env.BASE_URL}`
-const buildPath = `dist/${getBranchName()}_${process.env.PROJECT}`
+
+const projectName = `${process.env.PROJECT}`
+const buildPath = `dist/${getBranchName()}_${projectName}`
 
 module.exports = {
-  publicPath: `.${process.env.BASE_URL}`,
+  publicPath: './',
   outputDir: resolve(buildPath),
   productionSourceMap: false,
   devServer: {
@@ -53,7 +54,7 @@ module.exports = {
       mode: process.env.BUILD ? 'production' : 'development',
       resolve: {
         alias: {
-          '@': resolve(`${projectPath}/src`)
+          '@': resolve(`${projectName}/src`)
         }
       },
       plugins: [
@@ -132,7 +133,7 @@ function getBranchName () {
 function getRouterRoutes () {
   const reg = /(?<=path: ')(\/.*)(?=')/
   const routesConfig = require('fs')
-    .readFileSync(resolve(`${projectPath}/src/router/index.js`), 'utf8')
+    .readFileSync(resolve(`${projectName}/src/router/index.js`), 'utf8')
     .toString().split('\n')
 
   function validateRoute (path) {
