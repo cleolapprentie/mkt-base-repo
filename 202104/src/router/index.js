@@ -11,6 +11,16 @@ const routes = [
     component: Index
   },
   {
+    path: '/about',
+    name: 'about',
+    component: () => import('@/pages/About')
+  },
+  {
+    path: '/user/:id',
+    name: 'user',
+    component: () => import('@/pages/User')
+  },
+  {
     path: '*',
     redirect: { name: 'index' }
   }

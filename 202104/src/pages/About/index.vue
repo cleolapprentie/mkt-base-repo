@@ -2,14 +2,20 @@
 // import axios from '@/plugins/axios'
 
 export default {
-  name: 'Index',
+  name: 'About',
   metaInfo () {
     return {
       title: 'title'
     }
   },
+  data: () => ({
+    render: false
+  }),
   mounted () {
-    this.$prerenderStartPoint() // 通知prerender開始渲染
+    setTimeout(() => {
+      this.render = true
+      this.$prerenderStartPoint()
+    }, 5000)
   }
 }
 </script>
