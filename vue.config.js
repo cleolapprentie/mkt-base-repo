@@ -36,7 +36,6 @@ module.exports = {
       mode: process.env.BUILD ? 'production' : 'development',
       resolve: {
         alias: {
-          '~': resolve(`${projectPath}/src`),
           '@': resolve(`${projectPath}/src`)
         }
       },
