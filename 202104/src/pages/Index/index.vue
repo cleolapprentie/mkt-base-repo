@@ -1,5 +1,5 @@
 <script>
-import {} from '@vue/composition-api'
+import { onMounted } from '@vue/composition-api'
 // import axios from '@/plugins/axios'
 
 export default {
@@ -10,6 +10,10 @@ export default {
     }
   },
   setup (props, context) {
+    onMounted(async () => {
+      const result = await context.root.$store.dispatch('GET_DATA')
+      console.log(result)
+    })
   }
 }
 </script>
