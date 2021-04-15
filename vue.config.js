@@ -7,7 +7,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 const resolve = (dir) => path.join(__dirname, '.', dir)
 const projectPath = `./${process.env.PROJECT}${process.env.BASE_URL}`
-const buildPath = `dist/${getBranchName()}_${projectPath}`
+const buildPath = `dist/${getBranchName()}_${process.env.PROJECT}`
 
 function getBranchName () {
   return require('child_process')
