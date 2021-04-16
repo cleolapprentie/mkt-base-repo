@@ -5,10 +5,10 @@ const getters = {}
 const mutations = {}
 
 const actions = {
-  REQUEST (context, { reqContext, payload }) {
-    const request = Object.assign({}, reqContext.request, payload)
+  request (context, { reqContext, payload }) {
+    const reqConfig = Object.assign({}, reqContext.request, payload)
     return axios
-      .request(request)
+      .request(reqConfig)
       .then(reqContext.success)
       .catch(reqContext.error)
   }

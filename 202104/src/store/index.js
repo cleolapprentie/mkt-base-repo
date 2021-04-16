@@ -17,7 +17,7 @@ export default new Vuex.Store({
   actions: {
     async GET_DATA ({ dispatch, commit }, payload) {
       const result = await dispatch(
-        'API/REQUEST',
+        'API/request',
         { reqContext: service.example() }
       )
       commit('SET_DATA', result)
