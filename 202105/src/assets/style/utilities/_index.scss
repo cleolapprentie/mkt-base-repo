@@ -1,0 +1,12 @@
+@use './mixins' as *;
+@use '../abstract/extends';
+
+@include generate-utilities;
+
+.text-invisible {
+  @extend %text-invisible;
+}
+
+.position-center {
+  @extend %position-center;
+}

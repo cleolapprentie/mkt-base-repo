@@ -1,0 +1,78 @@
+@use 'sass:string';
+@use 'sass:map';
+@use '../abstract/mixins' as m;
+@use './config' as u;
+
+@mixin generate-utilities () {
+  @each $prop, $config in u.$utilities {
+    $responsive: map.get($config, responsive);
+    // normal
+    @include generate-space($prop, $config);
+    // with breakpoints
+    @if ($responsive == true) {
+      @each $size in u.$breakpoints {
+        $prefix: #{$size}\:;
+        @include m.screen ($size) {
+          @include generate-space($prop, $config, $prefix);
+        }
+      }
+    }
+  }
+}
+
+@mixin generate-space ($prop, $config, $prefix: '') {
+  $has-direction: map.get($config, direction);
+  $has-negative: map.get($config, negative);
+  $has-minmax: map.get($config, minmax);
+
+  @for $space from 0 through u.$max-space-amount {
+    @if ($space <= 10 or $space % u.$space-range == 0) {
+      $class: #{$prefix}#{string.slice($prop, 1, 1)};
+      // normal
+      @include get-property-value(
+        $class,
+        $space,
+        $prop,
+        $space,
+        $has-direction
+      );
+      // negative value
+      @if ($has-negative == true) {
+        $len: string.length($class);
+        $class: string.insert($class, '-', ($len + 1) * -1);
+
+        @include get-property-value(
+          $class,
+          $space,
+          $prop,
+          $space * -1,
+          $has-direction
+        );
+      }
+
+      // minmax
+      @if ($has-minmax == true) {
+        @each $p in (min, max) {
+          $class: #{$prefix}#{$p}-#{string.slice($prop, 1, 1)};
+          @include get-property-value($class, $space, #{$p}-#{$prop}, $space);
+        }
+      }
+    }
+  }
+}
+
+@mixin get-property-value ($class, $space, $prop, $value, $has-direction: false) {
+  .#{$class}-#{$space} {
+    #{$prop}: #{$value}px;
+  }
+
+  @if ($has-direction == true) {
+    @each $d, $sides in u.$directions {
+      .#{$class}#{$d}-#{$space} {
+        @each $side in $sides {
+          #{$prop}-#{$side}: #{$value}px;
+        }
+      }
+    }
+  }
+}

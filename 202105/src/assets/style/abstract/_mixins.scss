@@ -1,0 +1,107 @@
+@use 'sass:map';
+@use 'sass:math';
+@use 'variables' as v;
+@use 'functions' as f;
+
+@mixin screen($bp, $type: map.get(v.$design, v.$type)) {
+  $breakpoint: f.breakpoint($bp);
+
+  @if $type == max {
+    @media (#{$type}-width: #{$breakpoint - 1}px) {
+      @content;
+    }
+  }
+
+  @else if $type == min {
+    @media (#{$type}-width: #{$breakpoint}px) {
+      @content;
+    }
+  }
+}
+
+// support fallback
+@mixin support-ie() {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @content;
+  }
+}
+
+@mixin not-support ($condition) {
+  @supports not (#{$condition}) {
+    @content;
+  }
+
+  @include support-ie {
+    @content;
+  }
+}
+
+// utilities
+@mixin inset($offset) {
+  position: absolute;
+  inset: $offset;
+
+  @include not-support('inset: 0') {
+    $edge: f.inset-syntax($offset);
+    @each $dir, $value in $edge {
+      #{$dir}: $value;
+    }
+  }
+}
+
+@mixin aspect-ratio($width, $height, $child: pseudo) {
+  @if ($child == pseudo) {
+    &::after {
+      display: block;
+      padding-top: math.percentage($height / $width);
+      content: '';
+    }
+  } @else {
+    #{$child} {
+      padding-top: math.percentage($height / $width);
+    }
+  }
+}
+
+@mixin object-img($config) {
+  picture,
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  img {
+    @each $prop, $value in $config {
+      @if ($prop == size) {
+        object-fit: $value;
+      } @else if ($prop == position) {
+        object-position: $value;
+      }
+    }
+  }
+
+  @include not-support('object-fit: cover') {
+    background-position: center;
+    background-repeat: no-repeat;
+
+    @each $prop, $value in $config {
+      @if ($prop == size) {
+        @if ($value == 'fill') {
+          background-size: 100% 100%;
+        } @else if ($value == 'none') {
+          background-size: auto auto;
+        } @else {
+          background-size: $value;
+        }
+      } @else if ($prop == position) {
+        background-position: $value;
+      } @else if ($prop == src) {
+        background-image: url('#{$value}');
+      }
+    }
+
+    img {
+      display: none;
+    }
+  }
+}

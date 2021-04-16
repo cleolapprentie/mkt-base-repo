@@ -1,0 +1,90 @@
+
+h3 {
+  margin: 40px 0 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+a {
+  color: color(yellow, 100);
+}
+
+.hello {
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.card {
+  position: relative;
+  max-width: 320px;
+  background-color: color(pink, 100);
+  @include aspect-ratio(1, 1);
+
+  .inner {
+    background-color: color(yellow, 100);
+    @include inset(20px);
+  }
+}
+
+.grid-container {
+  display: grid;
+  // grid-template-columns: repeat(6, 1fr);
+  // grid-template-rows: repeat(3, 44px) auto auto auto;
+  grid-template-columns: 100px 1fr 1fr 100px;
+  grid-template-rows: repeat(3, 100px);
+  gap: 10px;
+  // grid-template-columns: repeat(4, 1fr);
+  // grid-template-rows: repeat(3, minmax(100px, max-content));
+
+  .grid-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: color(pink, 100);
+  }
+  // grid-template: 'a   b' 100px
+  //   'c   c' 200px /
+  //   1fr  1fr;
+
+  // .grid-card {
+  //   background-color: color(pink, 100);
+
+  //   &:nth-child(1) {
+  //     grid-area: a;
+  //   }
+
+  //   &:nth-child(2) {
+  //     grid-area: b;
+  //   }
+
+  //   &:nth-child(3) {
+  //     grid-area: c;
+  //   }
+  // }
+}
+
+.slide-bar {
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  .inner {
+    width: 1200px;
+    height: 40px;
+  }
+}
+
+// xxl | xl | lg | md | sm
+// @include screen (xl) {}
+.Index {
+}
+
+// xxl | xl | lg | md | sm
+// @include screen (xl) {}

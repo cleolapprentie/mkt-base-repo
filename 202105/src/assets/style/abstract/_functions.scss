@@ -1,0 +1,66 @@
+@use 'sass:map';
+@use 'sass:list';
+@use 'variables' as v;
+
+@function color($args...) {
+  @return map.get(v.$colors, $args...);
+}
+
+@function breakpoint($size) {
+  $bp: map.get(v.$breakpoints, $size);
+
+  @if $bp {
+    @return $bp;
+  }
+
+  @else {
+    @return $size;
+  }
+}
+
+// inset prop syntax
+@function inset-syntax ($offset) {
+  $edge: (
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
+  );
+  @if (list.length($offset) == 1) {
+    @each $dir, $value in $edge {
+      $edge: map.set($edge, $dir, $offset);
+    }
+  } @else if (list.length($offset) == 2) {
+    @each $dir, $value in $edge {
+      @if ($dir == 'top' or $dir == 'bottom') {
+        $edge: map.set($edge, $dir, list.nth($offset, 1));
+      } @else if ($dir == 'right' or $dir == 'left') {
+        $edge: map.set($edge, $dir, list.nth($offset, 2));
+      }
+    }
+  } @else if (list.length($offset) == 3) {
+    @each $dir, $value in $edge {
+      @if ($dir == 'top') {
+        $edge: map.set($edge, $dir, list.nth($offset, 1));
+      } @else if ($dir == 'right' or $dir == 'left') {
+        $edge: map.set($edge, $dir, list.nth($offset, 2));
+      } @else if ($dir == 'bottom') {
+        $edge: map.set($edge, $dir, list.nth($offset, 3));
+      }
+    }
+  } @else if (list.length($offset) == 4) {
+    @each $dir, $value in $edge {
+      @if ($dir == 'top') {
+        $edge: map.set($edge, $dir, list.nth($offset, 1));
+      } @else if ($dir == 'right') {
+        $edge: map.set($edge, $dir, list.nth($offset, 2));
+      } @else if ($dir == 'bottom') {
+        $edge: map.set($edge, $dir, list.nth($offset, 3));
+      } @else if ($dir == 'left') {
+        $edge: map.set($edge, $dir, list.nth($offset, 4));
+      }
+    }
+  }
+
+  @return $edge;
+}

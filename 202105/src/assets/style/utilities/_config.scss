@@ -1,0 +1,32 @@
+// spacing utilities
+$max-space-amount: 100;
+$space-range: 4;
+$breakpoints: (sm, md);
+$directions: (
+  l: left,
+  r: right,
+  t: top,
+  b: bottom,
+  x: (left, right),
+  y: (top, bottom)
+);
+
+$utilities: (
+  // width: (
+  //   minmax: true,
+  //   responsive: true
+  // ),
+  // height: (
+  //   minmax: true,
+  //   responsive: true
+  // ),
+  margin: (
+    negative: true,
+    direction: true,
+    responsive: true
+  ),
+  padding: (
+    direction: true,
+    responsive: true
+  )
+);
