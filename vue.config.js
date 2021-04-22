@@ -11,6 +11,7 @@ const resolve = (dir) => path.join(__dirname, '.', dir)
 
 const projectName = `${process.env.PROJECT}`
 const buildPath = `dist/${getBranchName()}_${projectName}`
+console.log([...require(resolve('config/postcss.config.js')).plugins])
 
 module.exports = {
   publicPath: './',
@@ -31,7 +32,8 @@ module.exports = {
         prependData: `
           @use "@/assets/style/abstract/_index.scss" as *;
         `
-      }
+      },
+      postcss: require(resolve('config/postcss.config.js'))
     }
   },
   pages: {
