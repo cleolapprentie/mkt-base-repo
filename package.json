@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "PROJECT=$npm_config_entry vue-cli-service serve --port 3000",
-    "build": "PROJECT=$npm_config_entry BUILD=true vue-cli-service build",
+    "dev": "node script/launch.js dev",
+    "build": "node script/launch.js build",
     "lint": "npm run lint:script && npm run lint:style",
-    "lint:script": "vue-cli-service lint */src/**/*.{js,vue} --fix",
-    "lint:style": "stylelint --cache */src/**/*.{vue,scss} --fix"
+    "lint:script": "vue-cli-service lint **/src/**/*.{js,vue} --fix",
+    "lint:style": "stylelint --cache **/src/**/*.{vue,scss} --fix"
   },
   "dependencies": {
     "axios": "^0.21.1",
