@@ -1,5 +1,5 @@
 const IS_BUILD = process.env.BUILD === 'true'
-const projectName = process.env.PROJECT
+const projectBaseUrl = process.env.PROJECT_BASE_URL
 
 const postcss = {
   plugins: [
@@ -13,9 +13,9 @@ if (IS_BUILD) {
   postcss.plugins.push(
     require('@fullhuman/postcss-purgecss')({
       content: [
-        `./${projectName}/public/**/*.html`,
-        `./${projectName}/src/**/*.html`,
-        `./${projectName}/src/**/*.vue`
+        `${projectBaseUrl}/public/**/*.html`,
+        `${projectBaseUrl}/src/**/*.html`,
+        `${projectBaseUrl}/src/**/*.vue`
       ],
       defaultExtractor (content) {
         const contentWithoutStyleBlocks = content.replace(

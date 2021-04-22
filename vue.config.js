@@ -9,9 +9,9 @@ require('dotenv').config({ path: 'config/env/.env' })
 
 const resolve = (dir) => path.join(__dirname, '.', dir)
 
-const projectName = `${process.env.PROJECT}`
+const projectName = process.env.PROJECT
+const projectBaseUrl = process.env.PROJECT_BASE_URL
 const buildPath = `dist/${getBranchName()}_${projectName}`
-console.log([...require(resolve('config/postcss.config.js')).plugins])
 
 module.exports = {
   publicPath: './',
@@ -38,8 +38,8 @@ module.exports = {
   },
   pages: {
     index: {
-      entry: `${projectName}/src/main.js`,
-      template: `${projectName}/public/index.html`
+      entry: resolve(`${projectBaseUrl}/src/main.js`),
+      template: resolve(`${projectBaseUrl}/public/index.html`)
     }
   },
   configureWebpack: (config) => {
@@ -47,12 +47,12 @@ module.exports = {
       mode: process.env.BUILD ? 'production' : 'development',
       resolve: {
         alias: {
-          '@': resolve(`${projectName}/src`)
+          '@': resolve(`${projectBaseUrl}/src`)
         }
       },
       plugins: [
         new CopyWebpackPlugin([{
-          from: resolve(`${projectName}/public/`),
+          from: resolve(`${projectBaseUrl}/public/`),
           to: resolve(buildPath)
         }]),
         new StyleLintPlugin({
@@ -126,7 +126,7 @@ function getBranchName () {
 function getRouterRoutes () {
   const reg = /(?<=path: ')(\/.*)(?=')/
   const routesConfig = require('fs')
-    .readFileSync(resolve(`${projectName}/src/router/index.js`), 'utf8')
+    .readFileSync(resolve(`${projectBaseUrl}/src/router/index.js`), 'utf8')
     .toString().split('\n')
 
   function validateRoute (path) {
