@@ -4,8 +4,9 @@ h3 {
 }
 
 ul {
-  list-style-type: none;
+  margin: 0;
   padding: 0;
+  list-style-type: none;
 }
 
 li {
@@ -84,6 +85,10 @@ a {
 // xxl | xl | lg | md | sm
 // @include screen (xl) {}
 .Index {
+}
+
+.unnecessary {
+  color: #ff0000;
 }
 
 // xxl | xl | lg | md | sm
