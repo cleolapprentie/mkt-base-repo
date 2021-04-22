@@ -53,6 +53,7 @@ module.exports = {
           to: resolve(buildPath)
         }]),
         new StyleLintPlugin({
+          configFile: resolve('config/lint/stylelint.config.js'),
           files: ['**/src/**/*.{vue,scss}']
         })
       ],
@@ -80,8 +81,7 @@ module.exports = {
 
           // -> Prerender時window.__PRERENDER_PROCESSING === true
           injectProperty: '__PRERENDER_PROCESSING',
-          inject: true,
-          headless: false
+          inject: true
         })
         // postProcess (context) {
         //   if (context.route.endsWith('.html')) {
