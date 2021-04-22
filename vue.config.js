@@ -4,8 +4,9 @@ const PrerenderSPAPlugin = require('prerender-spa-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-
 const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
+require('dotenv').config({ path: 'config/env/.env' })
+
 const resolve = (dir) => path.join(__dirname, '.', dir)
 
 const projectName = `${process.env.PROJECT}`
